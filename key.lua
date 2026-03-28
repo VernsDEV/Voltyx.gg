@@ -12,7 +12,7 @@ return {
     },
     {
         key    = "VERNS-E5F6-G7H8-KONTOL",
-        userId = 9150876081, -- isi nanti
+        userId = 10082113567, -- isi nanti
         expire = "2026-03-29",
         note   = "Key #2",
     },
