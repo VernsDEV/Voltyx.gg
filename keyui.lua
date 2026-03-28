@@ -368,8 +368,10 @@ local function validateAndLaunch(inputKey)
             return
         end
 
-        -- ── USERID LOCK CHECK (🔥 TAMBAHAN) ─────────────
-        local keyUserId = matched.userId or matched.userid
+local playerUserId = player.UserId -- 🔥 TAMBAHAN WAJIB
+
+-- ── USERID LOCK CHECK ─────────────
+local keyUserId = matched.userId or matched.userid
 
 if keyUserId and keyUserId ~= playerUserId then
     confirmBtn.Text = "✓  ACTIVATE KEY"
