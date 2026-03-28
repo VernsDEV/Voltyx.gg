@@ -395,7 +395,10 @@ local function validateAndLaunch(inputKey)
                 end
             end)
         end)
-    end
+
+    end) -- ✅ TAMBAHAN (nutup task.spawn)
+
+end -- ✅ TAMBAHAN (nutup function)
 
 
 
