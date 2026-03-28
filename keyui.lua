@@ -369,13 +369,13 @@ local function validateAndLaunch(inputKey)
         end
 
         -- ── USERID LOCK CHECK (🔥 TAMBAHAN) ─────────────
-        local playerUserId = player.UserId
+        local keyUserId = matched.userId or matched.userid
 
-        if matched.userid and matched.userid ~= playerUserId then
-            confirmBtn.Text = "✓  ACTIVATE KEY"
-            kickWrongKey("Key already used on another account.")
-            return
-        end
+if keyUserId and keyUserId ~= playerUserId then
+    confirmBtn.Text = "✓  ACTIVATE KEY"
+    kickWrongKey("Key already used on another account.")
+    return
+end
 
         -- ✅ Key valid
         statusL.TextColor3 = C.green
