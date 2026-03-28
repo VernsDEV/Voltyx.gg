@@ -11,9 +11,9 @@ return {
         note   = "Key #1",
     },
     {
-        key    = "VERNS-E5F6-G7H8-XXXX",
-        userId = nil, -- isi nanti
-        expire = "2025-12-31",
+        key    = "VERNS-E5F6-G7H8-KONTOL",
+        userId = 9150876081, -- isi nanti
+        expire = "2026-03-29",
         note   = "Key #2",
     },
     {
