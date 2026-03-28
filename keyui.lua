@@ -368,6 +368,15 @@ local function validateAndLaunch(inputKey)
             return
         end
 
+        -- ── USERID LOCK CHECK (🔥 TAMBAHAN) ─────────────
+        local playerUserId = player.UserId
+
+        if matched.userid and matched.userid ~= playerUserId then
+            confirmBtn.Text = "✓  ACTIVATE KEY"
+            kickWrongKey("Key already used on another account.")
+            return
+        end
+
         -- ✅ Key valid
         statusL.TextColor3 = C.green
         statusL.Text       = "✅  Key verified! Loading Voltyx..."
@@ -386,8 +395,8 @@ local function validateAndLaunch(inputKey)
                 end
             end)
         end)
-    end)
-end
+
+
 
 -- ── WIRE UP BUTTON & ENTER KEY ────────────────────────
 confirmBtn.MouseButton1Click:Connect(function()
