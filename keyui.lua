@@ -395,6 +395,7 @@ local function validateAndLaunch(inputKey)
                 end
             end)
         end)
+    end
 
 
 
