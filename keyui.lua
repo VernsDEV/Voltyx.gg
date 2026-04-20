@@ -368,28 +368,41 @@ local function validateAndLaunch(inputKey)
             return
         end
 
-local playerUserId = player.UserId -- 🔥 TAMBAHAN WAJIB
+        -- ── DUAL-TYPE KEY SYSTEM (FREE & PREMIUM) ─────────────
+        local playerUserId = player.UserId
+        local keyUserId = matched.userId or matched.userid
+        local isFree    = string.find(inputKey, "FREE")
+        local isPremium = string.find(inputKey, "PREMIUM")
 
-local playerUserId = player.UserId
+        if isFree then
+            print("[Voltyx] Free Key detected. Skipping ID lock.")
+        elseif isPremium or (not isFree and not isPremium) then
+            if keyUserId and keyUserId ~= playerUserId then
+                confirmBtn.Text = "✓  ACTIVATE KEY"
+                kickWrongKey("Premium Key ini sudah terkunci di akun lain.")
+                return
+            end
+        end
 
--- ── DUAL-TYPE KEY SYSTEM (FREE & PREMIUM) ─────────────
-local keyUserId = matched.userId or matched.userid
-local isFree    = string.find(inputKey, "FREE")
-local isPremium = string.find(inputKey, "PREMIUM")
+        -- ✅ Key valid - Launching main script
+        statusL.TextColor3 = C.green
+        statusL.Text       = "✅  Key verified! Loading Voltyx..."
+        tween(confirmBg, {BackgroundColor3 = C.green}, 0.15)
+        confirmBtn.Text    = "✓  Launching..."
 
-if isFree then
-    -- Jika ada kata "FREE", script tidak akan mengecek UserId (Universal)
-    print("[Voltyx] Free Key detected. Skipping ID lock.")
-elseif isPremium or (not isFree and not isPremium) then
-    -- Jika ada kata "PREMIUM" (atau key biasa), cek kunci ID
-    if keyUserId and keyUserId ~= playerUserId then
-        confirmBtn.Text = "✓  ACTIVATE KEY"
-        kickWrongKey("Premium Key ini sudah terkunci di akun lain.")
-        return
-    end
-end
-
-
+        task.delay(1.2, function()
+            destroyGate()
+            task.delay(0.4, function()
+                local loadOk, loadErr = pcall(function()
+                    loadstring(game:HttpGet(MAIN_URL, true))()
+                end)
+                if not loadOk then
+                    warn("[Voltyx KeyGate] Failed: " .. tostring(loadErr))
+                end
+            end)
+        end)
+    end) -- Tutup task.spawn
+end -- Tutup fungsi validateAndLaunch
 
 -- ── WIRE UP BUTTON & ENTER KEY ────────────────────────
 confirmBtn.MouseButton1Click:Connect(function()
