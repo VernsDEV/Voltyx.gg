@@ -370,37 +370,24 @@ local function validateAndLaunch(inputKey)
 
 local playerUserId = player.UserId -- 🔥 TAMBAHAN WAJIB
 
--- ── USERID LOCK CHECK ─────────────
+local playerUserId = player.UserId
+
+-- ── DUAL-TYPE KEY SYSTEM (FREE & PREMIUM) ─────────────
 local keyUserId = matched.userId or matched.userid
+local isFree    = string.find(inputKey, "FREE")
+local isPremium = string.find(inputKey, "PREMIUM")
 
-if keyUserId and keyUserId ~= playerUserId then
-    confirmBtn.Text = "✓  ACTIVATE KEY"
-    kickWrongKey("Key already used on another account.")
-    return
+if isFree then
+    -- Jika ada kata "FREE", script tidak akan mengecek UserId (Universal)
+    print("[Voltyx] Free Key detected. Skipping ID lock.")
+elseif isPremium or (not isFree and not isPremium) then
+    -- Jika ada kata "PREMIUM" (atau key biasa), cek kunci ID
+    if keyUserId and keyUserId ~= playerUserId then
+        confirmBtn.Text = "✓  ACTIVATE KEY"
+        kickWrongKey("Premium Key ini sudah terkunci di akun lain.")
+        return
+    end
 end
-
-        -- ✅ Key valid
-        statusL.TextColor3 = C.green
-        statusL.Text       = "✅  Key verified! Loading Voltyx..."
-        tween(confirmBg, {BackgroundColor3 = C.green}, 0.15)
-        confirmBtn.Text    = "✓  Launching..."
-
-        task.delay(1.2, function()
-            destroyGate()
-            task.delay(0.4, function()
-                -- Load the actual main script
-                local loadOk, loadErr = pcall(function()
-                    loadstring(game:HttpGet(MAIN_URL, true))()
-                end)
-                if not loadOk then
-                    warn("[Voltyx KeyGate] Failed to load main script: " .. tostring(loadErr))
-                end
-            end)
-        end)
-
-    end) -- ✅ TAMBAHAN (nutup task.spawn)
-
-end -- ✅ TAMBAHAN (nutup function)
 
 
 
