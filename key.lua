@@ -22,7 +22,7 @@ return {
         expire = "2026-12-31",
         note   = "Key #3",
     },
-         key    = "FREEE-1D",
+        key    = "FREEE-1D",
         userId = nil, -- isi nanti
         expire = "2026-04-21",
         note   = "Key #4",
