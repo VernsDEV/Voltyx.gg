@@ -18,7 +18,7 @@ return {
     },
     {
         key    = "VERNS-GOD",
-        userId = 9331039453, -- isi nanti
+        userId = nil, -- isi nanti
         expire = "2026-12-31",
         note   = "Key #3",
     },
