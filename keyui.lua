@@ -1,7 +1,7 @@
 -- ======================================================
---   VOLTYX.GG | KEY GATE
---   Fetches key.lua from GitHub, validates input,
---   then loads the main autofarm script.
+--    VOLTYX.GG | KEY GATE
+--    Fetches key.lua from GitHub, validates input,
+--    then loads the main autofarm script.
 -- ======================================================
 
 -- ── SERVICES ─────────────────────────────────────────
@@ -62,14 +62,14 @@ end
 
 -- ── PARSE DATE (YYYY-MM-DD) ──────────────────────────
 local function parseDate(str)
-    if str == "NEVER" then return nil end  -- nil = never expires
+    if str == "NEVER" then return nil end
     local y, m, d = str:match("^(%d%d%d%d)-(%d%d)-(%d%d)$")
     if not y then return false end
     return {year = tonumber(y), month = tonumber(m), day = tonumber(d)}
 end
 
 local function isExpired(dateTable)
-    if not dateTable then return false end          -- NEVER
+    if not dateTable then return false end
     local now = os.date("*t")
     if now.year  ~= dateTable.year  then return now.year  > dateTable.year  end
     if now.month ~= dateTable.month then return now.month > dateTable.month end
@@ -78,14 +78,13 @@ end
 
 -- ── BUILD KEY GATE UI ─────────────────────────────────
 local keyGui = Instance.new("ScreenGui")
-keyGui.Name           = "VoltyxKeyGate"
+keyGui.Name            = "VoltyxKeyGate"
 keyGui.ResetOnSpawn   = false
 keyGui.DisplayOrder   = 9999
 keyGui.IgnoreGuiInset = true
 pcall(function() keyGui.Parent = CoreGui end)
 if keyGui.Parent ~= CoreGui then keyGui.Parent = pGui end
 
--- Dim backdrop
 local backdrop = Instance.new("Frame", keyGui)
 backdrop.Size             = UDim2.new(1, 0, 1, 0)
 backdrop.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
@@ -93,7 +92,6 @@ backdrop.BackgroundTransparency = 0.45
 backdrop.BorderSizePixel  = 0
 backdrop.ZIndex           = 1
 
--- Main card
 local card = Instance.new("Frame", keyGui)
 card.Size             = UDim2.new(0, 460, 0, 330)
 card.Position         = UDim2.new(0.5, -230, 0.5, -165)
@@ -103,7 +101,6 @@ card.ZIndex           = 2
 corner(card, 14)
 local cardStroke = stroke(card, C.purple, 2)
 
--- Gradient accent bar (top)
 local accentBar = Instance.new("Frame", card)
 accentBar.Size            = UDim2.new(1, 0, 0, 3)
 accentBar.BackgroundColor3 = C.purple
@@ -112,7 +109,6 @@ accentBar.ZIndex          = 3
 corner(accentBar, 14)
 grad(accentBar, C.purple, C.cyan)
 
--- Logo / icon area
 local iconBg = Instance.new("Frame", card)
 iconBg.Size             = UDim2.new(0, 52, 0, 52)
 iconBg.Position         = UDim2.new(0.5, -26, 0, 20)
@@ -131,7 +127,6 @@ iconL.Font              = Enum.Font.GothamBold
 iconL.TextXAlignment    = Enum.TextXAlignment.Center
 iconL.ZIndex            = 4
 
--- RGB stroke loop on card
 task.spawn(function()
     while keyGui.Parent do
         local hue = tick() % 5 / 5
@@ -140,7 +135,6 @@ task.spawn(function()
     end
 end)
 
--- Title
 local titleL = Instance.new("TextLabel", card)
 titleL.Size              = UDim2.new(1, 0, 0, 26)
 titleL.Position          = UDim2.new(0, 0, 0, 82)
@@ -152,7 +146,6 @@ titleL.TextSize          = 18
 titleL.TextXAlignment    = Enum.TextXAlignment.Center
 titleL.ZIndex            = 3
 
--- Subtitle
 local subL = Instance.new("TextLabel", card)
 subL.Size              = UDim2.new(1, 0, 0, 18)
 subL.Position          = UDim2.new(0, 0, 0, 110)
@@ -164,7 +157,6 @@ subL.TextSize          = 12
 subL.TextXAlignment    = Enum.TextXAlignment.Center
 subL.ZIndex            = 3
 
--- Divider
 local div = Instance.new("Frame", card)
 div.Size             = UDim2.new(1, -40, 0, 1)
 div.Position         = UDim2.new(0, 20, 0, 136)
@@ -172,7 +164,6 @@ div.BackgroundColor3 = C.line
 div.BorderSizePixel  = 0
 div.ZIndex           = 3
 
--- TextBox label
 local inputLabel = Instance.new("TextLabel", card)
 inputLabel.Size              = UDim2.new(1, -40, 0, 16)
 inputLabel.Position          = UDim2.new(0, 20, 0, 148)
@@ -184,7 +175,6 @@ inputLabel.TextSize          = 11
 inputLabel.TextXAlignment    = Enum.TextXAlignment.Left
 inputLabel.ZIndex            = 3
 
--- TextBox background
 local inputBg = Instance.new("Frame", card)
 inputBg.Size             = UDim2.new(1, -40, 0, 44)
 inputBg.Position         = UDim2.new(0, 20, 0, 166)
@@ -217,7 +207,6 @@ textBox.FocusLost:Connect(function()
     tween(inputBg, {BackgroundColor3 = C.panel}, 0.15)
 end)
 
--- Status label (feedback)
 local statusL = Instance.new("TextLabel", card)
 statusL.Size              = UDim2.new(1, -40, 0, 18)
 statusL.Position          = UDim2.new(0, 20, 0, 216)
@@ -229,7 +218,6 @@ statusL.TextSize          = 12
 statusL.TextXAlignment    = Enum.TextXAlignment.Center
 statusL.ZIndex            = 3
 
--- Confirm button
 local confirmBg = Instance.new("Frame", card)
 confirmBg.Size             = UDim2.new(1, -40, 0, 42)
 confirmBg.Position         = UDim2.new(0, 20, 0, 242)
@@ -262,7 +250,6 @@ confirmBtn.MouseLeave:Connect(function()
     tween(confirmBg, {BackgroundColor3 = C.purpleD}, 0.12)
 end)
 
--- Discord footer
 local discordL = Instance.new("TextLabel", card)
 discordL.Size              = UDim2.new(1, 0, 0, 18)
 discordL.Position          = UDim2.new(0, 0, 0, 302)
@@ -274,7 +261,6 @@ discordL.TextSize          = 11
 discordL.TextXAlignment    = Enum.TextXAlignment.Center
 discordL.ZIndex            = 3
 
--- ── SHAKE ANIMATION ──────────────────────────────────
 local function shake()
     local base = card.Position
     local offsets = {8, -8, 6, -6, 3, 0}
@@ -285,7 +271,6 @@ local function shake()
     card.Position = base
 end
 
--- ── DESTROY KEY GATE UI ───────────────────────────────
 local function destroyGate()
     tween(backdrop, {BackgroundTransparency = 1}, 0.3)
     tween(card, {BackgroundTransparency = 1}, 0.3)
@@ -294,7 +279,6 @@ local function destroyGate()
     end)
 end
 
--- ── WRONG KEY → KICK ─────────────────────────────────
 local function kickWrongKey(reason)
     statusL.TextColor3 = C.red
     statusL.Text       = "❌ " .. (reason or "Invalid key — kicking...")
@@ -302,9 +286,7 @@ local function kickWrongKey(reason)
     task.spawn(shake)
     task.delay(1.5, function()
         pcall(function()
-            Players.LocalPlayer:Kick(
-                "\n\n❌  WRONG KEY\n\nJoin our Discord server to get a license key:\n" .. DISCORD .. "\n\n— VOLTYX.GG"
-            )
+            player:Kick("\n\n❌  WRONG KEY\n\nJoin our Discord server to get a license key:\n" .. DISCORD .. "\n\n— VOLTYX.GG")
         end)
     end)
 end
